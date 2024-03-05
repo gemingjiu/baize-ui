@@ -12,7 +12,7 @@
       <el-form-item label="状态" prop="status">
         <el-select v-model="queryParams.status" placeholder="部门状态" clearable>
           <el-option
-            v-for="dict in dict.type.sys_normal_disable"
+            v-for="dict in dict.type.sys_switch"
             :key="dict.value"
             :label="dict.label"
             :value="dict.value"
@@ -53,14 +53,14 @@
       v-loading="loading"
       :data="deptList"
       row-key="id"
-      :default-expand-all="isExpandAll"
+      :default-expand-all="igenderpandAll"
       :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
     >
       <el-table-column prop="deptName" label="部门名称" width="260"></el-table-column>
-      <el-table-column prop="orderNum" label="排序" width="200"></el-table-column>
+      <el-table-column prop="sort" label="排序" width="200"></el-table-column>
       <el-table-column prop="status" label="状态" width="100">
         <template slot-scope="scope">
-          <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
+          <dict-tag :options="dict.type.sys_switch" :value="scope.row.status"/>
         </template>
       </el-table-column>
       <el-table-column label="创建时间" align="center" prop="createdTime" width="200">
@@ -85,7 +85,7 @@
             v-hasPermi="['system:dept:add']"
           >新增</el-button>
           <el-button
-            v-if="scope.row.parentId != 0"
+            v-if="scope.row.parentId != '0'"
             size="mini"
             type="text"
             icon="el-icon-delete"
@@ -100,7 +100,7 @@
     <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-row>
-          <el-col :span="24" v-if="form.parentId !== 0">
+          <el-col :span="24" v-if="form.parentId != '0'">
             <el-form-item label="上级部门" prop="parentId">
               <treeselect v-model="form.parentId" :options="deptOptions" :normalizer="normalizer" placeholder="选择上级部门" />
             </el-form-item>
@@ -113,8 +113,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="显示排序" prop="orderNum">
-              <el-input-number v-model="form.orderNum" controls-position="right" :min="0" />
+            <el-form-item label="显示排序" prop="sort">
+              <el-input-number v-model="form.sort" controls-position="right" :min="0" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -140,7 +140,7 @@
             <el-form-item label="部门状态">
               <el-radio-group v-model="form.status">
                 <el-radio
-                  v-for="dict in dict.type.sys_normal_disable"
+                  v-for="dict in dict.type.sys_switch"
                   :key="dict.value"
                   :label="dict.value"
                 >{{dict.label}}</el-radio>
@@ -164,7 +164,7 @@ import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 
 export default {
   name: "Dept",
-  dicts: ['sys_normal_disable'],
+  dicts: ['sys_switch'],
   components: { Treeselect },
   data() {
     return {
@@ -181,7 +181,7 @@ export default {
       // 是否显示弹出层
       open: false,
       // 是否展开，默认全部展开
-      isExpandAll: true,
+      igenderpandAll: true,
       // 重新渲染表格状态
       refreshTable: true,
       // 查询参数
@@ -199,7 +199,7 @@ export default {
         deptName: [
           { required: true, message: "部门名称不能为空", trigger: "blur" }
         ],
-        orderNum: [
+        sort: [
           { required: true, message: "显示排序不能为空", trigger: "blur" }
         ],
         email: [
@@ -253,7 +253,7 @@ export default {
         id: undefined,
         parentId: undefined,
         deptName: undefined,
-        orderNum: undefined,
+        sort: undefined,
         leader: undefined,
         phone: undefined,
         email: undefined,
@@ -285,7 +285,7 @@ export default {
     /** 展开/折叠操作 */
     toggleExpandAll() {
       this.refreshTable = false;
-      this.isExpandAll = !this.isExpandAll;
+      this.igenderpandAll = !this.igenderpandAll;
       this.$nextTick(() => {
         this.refreshTable = true;
       });

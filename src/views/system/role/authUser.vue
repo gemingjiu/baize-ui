@@ -10,9 +10,9 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="手机号码" prop="phonenumber">
+      <el-form-item label="手机号码" prop="phone">
         <el-input
-          v-model="queryParams.phonenumber"
+          v-model="queryParams.phone"
           placeholder="请输入手机号码"
           clearable
           style="width: 240px"
@@ -64,10 +64,10 @@
       <el-table-column label="用户名称" prop="userName" :show-overflow-tooltip="true" />
       <el-table-column label="用户昵称" prop="nickName" :show-overflow-tooltip="true" />
       <el-table-column label="邮箱" prop="email" :show-overflow-tooltip="true" />
-      <el-table-column label="手机" prop="phonenumber" :show-overflow-tooltip="true" />
+      <el-table-column label="手机" prop="phone" :show-overflow-tooltip="true" />
       <el-table-column label="状态" align="center" prop="status">
         <template slot-scope="scope">
-          <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
+          <dict-tag :options="dict.type.sys_switch" :value="scope.row.status"/>
         </template>
       </el-table-column>
       <el-table-column label="创建时间" align="center" prop="createdTime" width="180">
@@ -105,7 +105,7 @@ import selectUser from "./selectUser";
 
 export default {
   name: "AuthUser",
-  dicts: ['sys_normal_disable'],
+  dicts: ['sys_switch'],
   components: { selectUser },
   data() {
     return {
@@ -127,7 +127,7 @@ export default {
         pageSize: 10,
         roleId: undefined,
         userName: undefined,
-        phonenumber: undefined
+        phone: undefined
       }
     };
   },

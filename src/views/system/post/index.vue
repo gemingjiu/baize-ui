@@ -20,7 +20,7 @@
       <el-form-item label="状态" prop="status">
         <el-select v-model="queryParams.status" placeholder="岗位状态" clearable>
           <el-option
-            v-for="dict in dict.type.sys_normal_disable"
+            v-for="dict in dict.type.sys_switch"
             :key="dict.value"
             :label="dict.label"
             :value="dict.value"
@@ -81,13 +81,12 @@
 
     <el-table v-loading="loading" :data="postList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="岗位编号" align="center" prop="id" />
       <el-table-column label="岗位编码" align="center" prop="postCode" />
       <el-table-column label="岗位名称" align="center" prop="postName" />
-      <el-table-column label="岗位排序" align="center" prop="sort" />
+      <el-table-column label="排序" align="center" prop="sort" />
       <el-table-column label="状态" align="center" prop="status">
         <template slot-scope="scope">
-          <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
+          <dict-tag :options="dict.type.sys_switch" :value="scope.row.status"/>
         </template>
       </el-table-column>
       <el-table-column label="创建时间" align="center" prop="createdTime" width="180">
@@ -138,7 +137,7 @@
         <el-form-item label="岗位状态" prop="status">
           <el-radio-group v-model="form.status">
             <el-radio
-              v-for="dict in dict.type.sys_normal_disable"
+              v-for="dict in dict.type.sys_switch"
               :key="dict.value"
               :label="dict.value"
             >{{dict.label}}</el-radio>
@@ -161,7 +160,7 @@ import { listPost, getPost, delPost, addPost, updatePost } from "@/api/system/po
 
 export default {
   name: "Post",
-  dicts: ['sys_normal_disable'],
+  dicts: ['sys_switch'],
   data() {
     return {
       // 遮罩层

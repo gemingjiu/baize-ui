@@ -27,7 +27,7 @@
           style="width: 240px"
         >
           <el-option
-            v-for="dict in dict.type.sys_normal_disable"
+            v-for="dict in dict.type.sys_switch"
             :key="dict.value"
             :label="dict.label"
             :value="dict.value"
@@ -109,7 +109,7 @@
 
     <el-table v-loading="loading" :data="typeList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="字典编号" align="center" prop="id" />
+<!--      <el-table-column label="字典编号" align="center" prop="id" />-->
       <el-table-column label="字典名称" align="center" prop="dictName" :show-overflow-tooltip="true" />
       <el-table-column label="字典类型" align="center" :show-overflow-tooltip="true">
         <template slot-scope="scope">
@@ -118,9 +118,10 @@
           </router-link>
         </template>
       </el-table-column>
+      <el-table-column label="排序" align="center" prop="sort"></el-table-column>
       <el-table-column label="状态" align="center" prop="status">
         <template slot-scope="scope">
-          <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
+          <dict-tag :options="dict.type.sys_switch" :value="scope.row.status"/>
         </template>
       </el-table-column>
       <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
@@ -158,26 +159,43 @@
     />
 
     <!-- 添加或修改参数配置对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="字典名称" prop="dictName">
-          <el-input v-model="form.dictName" placeholder="请输入字典名称" />
-        </el-form-item>
-        <el-form-item label="字典类型" prop="dictType">
-          <el-input v-model="form.dictType" placeholder="请输入字典类型" />
-        </el-form-item>
-        <el-form-item label="状态" prop="status">
-          <el-radio-group v-model="form.status">
-            <el-radio
-              v-for="dict in dict.type.sys_normal_disable"
-              :key="dict.value"
-              :label="dict.value"
-            >{{dict.label}}</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"></el-input>
-        </el-form-item>
+    <el-dialog :title="title" :visible.sync="open" width="680px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="字典名称" prop="dictName">
+              <el-input v-model="form.dictName" placeholder="请输入字典名称" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="字典类型" prop="dictType">
+              <el-input v-model="form.dictType" placeholder="请输入字典类型" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="状态" prop="status">
+              <el-radio-group v-model="form.status">
+                <el-radio
+                  v-for="dict in dict.type.sys_switch"
+                  :key="dict.value"
+                  :label="dict.value"
+                >{{dict.label}}</el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="显示排序" prop="sort">
+              <el-input-number v-model="form.sort" controls-position="right" :min="0" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-form-item label="备注" prop="remark">
+            <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"></el-input>
+          </el-form-item>
+        </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -192,7 +210,7 @@ import { listType, getType, delType, addType, updateType, refreshCache } from "@
 
 export default {
   name: "Dict",
-  dicts: ['sys_normal_disable'],
+  dicts: ['sys_switch'],
   data() {
     return {
       // 遮罩层
@@ -262,6 +280,7 @@ export default {
         dictName: undefined,
         dictType: undefined,
         status: "0",
+        sort: 0,
         remark: undefined
       };
       this.resetForm("form");

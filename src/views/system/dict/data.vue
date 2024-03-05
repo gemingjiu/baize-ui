@@ -22,7 +22,7 @@
       <el-form-item label="状态" prop="status">
         <el-select v-model="queryParams.status" placeholder="数据状态" clearable>
           <el-option
-            v-for="dict in dict.type.sys_normal_disable"
+            v-for="dict in dict.type.sys_switch"
             :key="dict.value"
             :label="dict.label"
             :value="dict.value"
@@ -103,7 +103,7 @@
       <el-table-column label="字典排序" align="center" prop="sort" />
       <el-table-column label="状态" align="center" prop="status">
         <template slot-scope="scope">
-          <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
+          <dict-tag :options="dict.type.sys_switch" :value="scope.row.status"/>
         </template>
       </el-table-column>
       <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
@@ -171,7 +171,7 @@
         <el-form-item label="状态" prop="status">
           <el-radio-group v-model="form.status">
             <el-radio
-              v-for="dict in dict.type.sys_normal_disable"
+              v-for="dict in dict.type.sys_switch"
               :key="dict.value"
               :label="dict.value"
             >{{dict.label}}</el-radio>
@@ -195,7 +195,7 @@ import { optionselect as getDictOptionselect, getType } from "@/api/system/dict/
 
 export default {
   name: "Data",
-  dicts: ['sys_normal_disable'],
+  dicts: ['sys_switch'],
   data() {
     return {
       // 遮罩层

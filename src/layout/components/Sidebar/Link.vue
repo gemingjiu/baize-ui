@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { isExternal } from '@/utils/validate'
+import { igenderternal } from '@/utils/validate'
 
 export default {
   props: {
@@ -15,11 +15,11 @@ export default {
     }
   },
   computed: {
-    isExternal() {
-      return isExternal(this.to)
+    igenderternal() {
+      return igenderternal(this.to)
     },
     type() {
-      if (this.isExternal) {
+      if (this.igenderternal) {
         return 'a'
       }
       return 'router-link'
@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     linkProps(to) {
-      if (this.isExternal) {
+      if (this.igenderternal) {
         return {
           href: to,
           target: '_blank',

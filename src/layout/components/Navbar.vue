@@ -9,12 +9,12 @@
       <template v-if="device!=='mobile'">
         <search id="header-search" class="right-menu-item" />
 
-        <el-tooltip content="源码地址" effect="dark" placement="bottom">
-          <baize-git id="baize-git" class="right-menu-item hover-effect" />
-        </el-tooltip>
-
         <el-tooltip content="文档地址" effect="dark" placement="bottom">
           <ruo-yi-doc id="baize-doc" class="right-menu-item hover-effect" />
+        </el-tooltip>
+
+        <el-tooltip content="源码地址" effect="dark" placement="bottom">
+          <baize-git id="baize-git" class="right-menu-item hover-effect" />
         </el-tooltip>
 
         <screenfull id="screenfull" class="right-menu-item hover-effect" />
@@ -54,8 +54,7 @@ import Hamburger from '@/components/Hamburger'
 import ScreenFull from '@/components/ScreenFull'
 import SizeSelect from '@/components/SizeSelect'
 import Search from '@/components/HeaderSearch'
-import BaizeGit from '@/components/Baize/Git'
-import BaizeDoc from '@/components/Baize/Doc'
+import GitRef from '@/components/Reference/Git'
 
 export default {
   components: {
@@ -65,8 +64,7 @@ export default {
     ScreenFull,
     SizeSelect,
     Search,
-    BaizeGit,
-    BaizeDoc
+    GitRef,
   },
   computed: {
     ...mapGetters([

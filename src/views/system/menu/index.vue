@@ -12,7 +12,7 @@
       <el-form-item label="状态" prop="status">
         <el-select v-model="queryParams.status" placeholder="菜单状态" clearable>
           <el-option
-            v-for="dict in dict.type.sys_normal_disable"
+            v-for="dict in dict.type.sys_switch"
             :key="dict.value"
             :label="dict.label"
             :value="dict.value"
@@ -53,7 +53,7 @@
       v-loading="loading"
       :data="menuList"
       row-key="id"
-      :default-expand-all="isExpandAll"
+      :default-expand-all="igenderpandAll"
       :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
     >
       <el-table-column prop="menuName" label="菜单名称" :show-overflow-tooltip="true" width="160"></el-table-column>
@@ -62,12 +62,12 @@
           <svg-icon :icon-class="scope.row.icon" />
         </template>
       </el-table-column>
-      <el-table-column prop="orderNum" label="排序" width="60"></el-table-column>
+      <el-table-column prop="sort" label="排序" width="60"></el-table-column>
       <el-table-column prop="perms" label="权限标识" :show-overflow-tooltip="true"></el-table-column>
       <el-table-column prop="component" label="组件路径" :show-overflow-tooltip="true"></el-table-column>
       <el-table-column prop="status" label="状态" width="80">
         <template slot-scope="scope">
-          <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
+          <dict-tag :options="dict.type.sys_switch" :value="scope.row.status"/>
         </template>
       </el-table-column>
       <el-table-column label="创建时间" align="center" prop="createdTime">
@@ -153,19 +153,19 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="显示排序" prop="orderNum">
-              <el-input-number v-model="form.orderNum" controls-position="right" :min="0" />
+            <el-form-item label="显示排序" prop="sort">
+              <el-input-number v-model="form.sort" controls-position="right" :min="0" />
             </el-form-item>
           </el-col>
           <el-col :span="12" v-if="form.menuType != 'F'">
-            <el-form-item prop="isFrame">
+            <el-form-item prop="external">
               <span slot="label">
                 <el-tooltip content="选择是外链则路由地址需要以`http(s)://`开头" placement="top">
                 <i class="el-icon-question"></i>
                 </el-tooltip>
                 是否外链
               </span>
-              <el-radio-group v-model="form.isFrame">
+              <el-radio-group v-model="form.external">
                 <el-radio label="0">是</el-radio>
                 <el-radio label="1">否</el-radio>
               </el-radio-group>
@@ -239,7 +239,7 @@
               </span>
               <el-radio-group v-model="form.visible">
                 <el-radio
-                  v-for="dict in dict.type.sys_show_hide"
+                  v-for="dict in dict.type.sys_menu_status"
                   :key="dict.value"
                   :label="dict.value"
                 >{{dict.label}}</el-radio>
@@ -256,7 +256,7 @@
               </span>
               <el-radio-group v-model="form.status">
                 <el-radio
-                  v-for="dict in dict.type.sys_normal_disable"
+                  v-for="dict in dict.type.sys_switch"
                   :key="dict.value"
                   :label="dict.value"
                 >{{dict.label}}</el-radio>
@@ -281,7 +281,7 @@ import IconSelect from "@/components/IconSelect";
 
 export default {
   name: "Menu",
-  dicts: ['sys_show_hide', 'sys_normal_disable'],
+  dicts: ['sys_menu_status', 'sys_switch'],
   components: { Treeselect, IconSelect },
   data() {
     return {
@@ -298,7 +298,7 @@ export default {
       // 是否显示弹出层
       open: false,
       // 是否展开，默认全部折叠
-      isExpandAll: false,
+      igenderpandAll: false,
       // 重新渲染表格状态
       refreshTable: true,
       // 查询参数
@@ -313,7 +313,7 @@ export default {
         menuName: [
           { required: true, message: "菜单名称不能为空", trigger: "blur" }
         ],
-        orderNum: [
+        sort: [
           { required: true, message: "菜单顺序不能为空", trigger: "blur" }
         ],
         path: [
@@ -371,8 +371,8 @@ export default {
         menuName: undefined,
         icon: undefined,
         menuType: "M",
-        orderNum: undefined,
-        isFrame: "1",
+        sort: undefined,
+        external: "1",
         isCache: "0",
         visible: "0",
         status: "0"
@@ -403,7 +403,7 @@ export default {
     /** 展开/折叠操作 */
     toggleExpandAll() {
       this.refreshTable = false;
-      this.isExpandAll = !this.isExpandAll;
+      this.igenderpandAll = !this.igenderpandAll;
       this.$nextTick(() => {
         this.refreshTable = true;
       });

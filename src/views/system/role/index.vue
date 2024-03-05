@@ -27,7 +27,7 @@
           style="width: 240px"
         >
           <el-option
-            v-for="dict in dict.type.sys_normal_disable"
+            v-for="dict in dict.type.sys_switch"
             :key="dict.value"
             :label="dict.label"
             :value="dict.value"
@@ -99,11 +99,10 @@
 
     <el-table v-loading="loading" :data="roleList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="角色编号" prop="id" width="120" />
-      <el-table-column label="角色名称" prop="roleName" :show-overflow-tooltip="true" width="150" />
-      <el-table-column label="权限字符" prop="roleKey" :show-overflow-tooltip="true" width="150" />
-      <el-table-column label="显示顺序" prop="sort" width="100" />
-      <el-table-column label="状态" align="center" width="100">
+      <el-table-column label="角色名称" prop="roleName" :show-overflow-tooltip="true" width="300" />
+      <el-table-column label="权限字符" prop="roleKey" :show-overflow-tooltip="true" width="300" />
+      <el-table-column label="顺序" prop="sort" width="160" />
+      <el-table-column label="状态" align="center" width="160">
         <template slot-scope="scope">
           <el-switch
             v-model="scope.row.status"
@@ -113,12 +112,12 @@
           ></el-switch>
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" align="center" prop="createdTime" width="180">
+      <el-table-column label="创建时间" align="center" prop="createdTime" width="300">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createdTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center"class-name="small-padding fixed-width">
         <template slot-scope="scope" v-if="scope.row.id !== 1">
           <el-button
             size="mini"
@@ -176,7 +175,7 @@
         <el-form-item label="状态">
           <el-radio-group v-model="form.status">
             <el-radio
-              v-for="dict in dict.type.sys_normal_disable"
+              v-for="dict in dict.type.sys_switch"
               :key="dict.value"
               :label="dict.value"
             >{{dict.label}}</el-radio>
@@ -257,7 +256,7 @@ import { treeselect as menuTreeselect, roleMenuTreeselect } from "@/api/system/m
 
 export default {
   name: "Role",
-  dicts: ['sys_normal_disable'],
+  dicts: ['sys_switch'],
   data() {
     return {
       // 遮罩层
